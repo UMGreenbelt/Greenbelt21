@@ -1,0 +1,41 @@
+---
+title: "Creating_Canopy_Height_Models"
+author: "Lavran Pagano"
+date: "3/16/2021"
+output: html_document
+---
+###import packages
+```{r }
+library(lidR)
+library(stringr)
+library(spatialEco)
+library(SpaDES)
+```
+### Read in .las file and use inverse distance weighting to make sure that the minum value is zero
+```{r}
+las <- readLAS("/Users/lavran_pagano/Desktop/Brauerlas/245267.las")# imput your on path to your .lasfile
+lasn <- lasnormalize(las, knnidw(),na.rm = TRUE) #inverse distance weighting
+```
+### Create a canopy height model.
+```{r}
+chm <- grid_canopy(lasn, 0.25, pitfree(c(0,2,5,10,15), c(0,1), subcircle = 0.2))# Khosravipouret al. 2014
+```
+### Our lidar files were using feet as units so we need to convert all values to meters
+```{r}
+CHM_m <- chm * 0.3048
+```
+### Making double sure that there are no points above 30 meters or below zero meters
+```{r}
+CHM_m[CHM_m < 2] <- 0
+CHM_m[CHM_m > 30] <- 0
+```
+### Aply a Gaussian filter to remove spirious points
+```{r}
+gf <- focalWeight(CHM_m, 2, "Gauss")
+CHMrg <- focal(CHM_m, w=gf, na.rm=TRUE)
+```
+### Write to a raster
+```{r}
+writeRaster(CHMrg, filename = "Canopy_Height_Model", bylayer = TRUE, format = "GTiff", overwrite = TRUE)
+```
+
