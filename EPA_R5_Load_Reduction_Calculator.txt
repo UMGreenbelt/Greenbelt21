@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+
+<body >
+
+<h2>EPA Region 5 Load Reduction Calculator</h2>
+
+<p>Input information regarding proposed land use change, acreage, and easement type below.</p>
+
+<hr>
+
+<div>
+	<p>Proposed Land Use Change:</p>
+	<select id="LCLU">
+	    <option value="a0">Select</option>
+	    <option value="a1">Commercial</option>
+	    <option value="a2">Industrial</option>
+	    <option value="a3">Institutional</option>
+	    <option value="a4">Transportation</option>
+	    <option value="a5">Multi-Family</option>
+	    <option value="a6">Residential</option>
+	    <option value="a7">Agriculture</option>
+	    <option value="a8">Vacant</option>
+	    <option value="a9">Open Space</option>
+  	</select>  
+</div>
+
+<p>Acres of Sewered Land:</p>
+
+<input type="text" id="b1" value="0">
+
+<br/>
+
+<p>Acres of Unsewered Land:</p>
+<input type="text" id="c1" value="0">
+
+<br/>
+<br/>
+<br/>
+
+
+<button type="button" onclick='run()'>SUBMIT</button>
+
+<br/>
+<br/>
+<hr>
+
+<style>
+table {border-collapse: collapse; width:100%;
+}
+
+td, th {
+  border: 1px solid #707070;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h3>Results</h3>
+<table>
+	<tr>
+	    <th>Substance:</th>
+	    <th>Load (lbs/yr):</th>
+	    <th>Load Reduction with Agricultural Easement (lbs/yr):</th>
+	    <th>Load Reduction with Open Space Easement (lbs/yr):</th>
+	</tr>
+	<tr>
+	    <td>Biochemical Oxygen Demand (BOD)</td>
+	    <td><span id="BODLoad"></span></td>
+	    <td><span id="BODLoad1"></span></td>
+	    <td><span id="BODLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Chemical Oxygen Demand (COD)</td>
+	    <td><span id="CODLoad"></span></td>
+	    <td><span id="CODLoad1"></span></td>
+	    <td><span id="CODLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Total Suspended Solids (TSS)</td>
+	    <td><span id="TSSLoad"></span></td>
+	    <td><span id="TSSLoad1"></span></td>
+	    <td><span id="TSSLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Total Dissolved Solids (TDS)</td>
+	    <td><span id="TDSLoad"></span></td>
+	    <td><span id="TDSLoad1"></span></td>
+	    <td><span id="TDSLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Total Nitrogen (TN)</td>
+	    <td><span id="TNLoad"></span></td>
+	    <td><span id="TNLoad1"></span></td>
+	    <td><span id="TNLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Total Kjeldahl Nitrogen (TKN)</td>
+	    <td><span id="TKNLoad"></span></td>
+	    <td><span id="TKNLoad1"></span></td>
+	    <td><span id="TKNLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Dissolved Phosphorus (DP)</td>
+	    <td><span id="DPLoad"></span></td>
+	    <td><span id="DPLoad1"></span></td>
+	    <td><span id="DPLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Total Phosphorus (TP)</td>
+	    <td><span id="TPLoad"></span></td>
+	    <td><span id="TPLoad1"></span></td>
+	    <td><span id="TPLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Lead</td>
+	    <td><span id="LeadLoad"></span></td>
+	    <td><span id="LeadLoad1"></span></td>
+	    <td><span id="LeadLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Copper</td>
+	    <td><span id="CULoad"></span></td>    
+	    <td><span id="CULoad1"></span></td>
+	    <td><span id="CULoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Zinc</td>
+	    <td><span id="ZincLoad"></span></td>
+	    <td><span id="ZincLoad1"></span></td>
+	    <td><span id="ZincLoad2"></span></td>
+	</tr>
+	<tr>
+	    <td>Cadmium</td>
+	    <td><span id="CADLoad"></span></td>
+	    <td><span id="CADLoad1"></span></td>
+	    <td><span id="CADLoad2"></span></td>
+	</tr>
+</table>
+</body>
+
+<script>
+
+	window.onload = run();
+
+	function run(){
+		
+		console.log("Start running function 'run'.");
+		
+		var LCLU = document.getElementById("LCLU");
+		var LU = LCLU.options[LCLU.selectedIndex].value;
+
+		var AS = 0;
+		AS = parseInt(document.getElementById("b1").value);
+		
+		var AU = 0;
+		AU = parseInt(document.getElementById("c1").value);
+
+		var BODLoad = 0;
+		var BODRedAg = 0;
+		var BODRedOS = 0;
+
+		var CODLoad = 0;
+		var CODRedAg = 0;
+		var CODRedOS = 0;
+
+		var TSSLoad = 0;
+		var TSSRedAg = 0;
+		var TSSRedOS = 0;
+
+		var LeadLoad = 0;
+		var LeadRedAg = 0;
+		var LeadRedOS = 0;
+
+		var CULoad = 0;
+		var CURedAg = 0;
+		var CURedOS = 0;
+
+		var ZincLoad = 0;
+		var ZincRedAg = 0;
+		var ZincRedOS = 0;
+
+		var TDSLoad = 0;
+		var TDSRedAg = 0;
+		var TDSRedOS = 0;
+
+		var TNLoad = 0;
+		var TNRedAg = 0;
+		var TNRedOS = 0;
+
+		var TKNLoad = 0;
+		var TKNRedAg = 0;
+		var TKNRedOS = 0;
+
+		var DPLoad = 0;
+		var DPRedAg = 0;
+		var DPRedOS = 0;
+
+		var TPLoad = 0;
+		var TPRedAg = 0;
+		var TPRedOS = 0;
+
+		var CADLoad = 0;
+		var CADRedAg = 0;
+		var CADRedOS = 0;
+
+		if (LU=="a1"){
+			var BODLoad = (AS*85) + (AU*75);
+			var CODLoad = (AS*589) + (AU*520);
+			var TSSLoad = (AS*1180) + (AU*1040);
+			var LeadLoad = (AS*1.03) + (AU*0.90);
+			var CULoad = (AS*0.2) + (AU*0.18);
+			var ZincLoad = (AS*1.6) + (AU*1.4);
+			var TDSLoad = (AS*2830) + (AU*2500);
+			var TNLoad = (AS*21) + (AU*18);
+			var TKNLoad = (AS*6.9) + (AU*6.1);
+			var DPLoad = (AS*0.69) + (AU*0.61);
+			var TPLoad = (AS*1.3) + (AU*1.2);
+			var CADLoad = (AS*0.008) + (AU*0.0071);
+		}
+		
+		else if (LU=="a2"){
+			var BODLoad = (AS*50) + (AU*40);
+			var CODLoad = (AS*260) + (AU*230);
+			var TSSLoad = (AS*1240) + (AU*1080);
+			var LeadLoad = (AS*1.58) + (AU*1.39);
+			var CULoad = (AS*0.21) + (AU*0.18);
+			var ZincLoad = (AS*1.3) + (AU*1.2);
+			var TDSLoad = (AS*1290) + (AU*1130);
+			var TNLoad = (AS*14) + (AU*12);
+			var TKNLoad = (AS*4) + (AU*4);
+			var DPLoad = (AS*0.86) + (AU*0.75);
+			var TPLoad = (AS*1.5) + (AU*1.3);
+			var CADLoad = (AS*0.025) + (AU*0.022);
+		}
+
+		else if (LU=="a3"){
+			var BODLoad = (AS*52) + (AU*31);
+			var CODLoad = (AS*320) + (AU*190);
+			var TSSLoad = (AS*1320) + (AU*790);
+			var LeadLoad = (AS*0.367) + (AU*0.22);
+			var CULoad = (AS*0.1) + (AU*0.061);
+			var ZincLoad = (AS*0.57) + (AU*0.34);
+			var TDSLoad = (AS*623) + (AU*374);
+			var TNLoad = (AS*11) + (AU*6.5);
+			var TKNLoad = (AS*6.4) + (AU*3.8);
+			var DPLoad = (AS*0.61) + (AU*0.36);
+			var TPLoad = (AS*1.4) + (AU*0.8);
+			var CADLoad = (AS*0.0037) + (AU*0.0022);
+		}
+
+		else if (LU=="a4"){
+			var BODLoad = (AS*50) + (AU*30);
+			var CODLoad = (AS*881) + (AU*518);
+			var TSSLoad = (AS*2260) + (AU*1330);
+			var LeadLoad = (AS*2.67) + (AU*1.57);
+			var CULoad = (AS*0.56) + (AU*0.33);
+			var ZincLoad = (AS*3.2) + (AU*1.9);
+			var TDSLoad = (AS*6060) + (AU*3565);
+			var TNLoad = (AS*13) + (AU*7.7);
+			var TKNLoad = (AS*18) + (AU*11);
+			var DPLoad = (AS*0.2) + (AU*0.1);
+			var TPLoad = (AS*1.8) + (AU*1.1);
+			var CADLoad = (AS*0.021) + (AU*0.012);
+		}
+
+		else if (LU=="a5"){
+			var BODLoad = (AS*52) + (AU*42);
+			var CODLoad = (AS*320) + (AU*260);
+			var TSSLoad = (AS*1320) + (AU*1050);
+			var LeadLoad = (AS*0.367) + (AU*0.294);
+			var CULoad = (AS*0.1) + (AU*0.081);
+			var ZincLoad = (AS*0.57) + (AU*0.46);
+			var TDSLoad = (AS*623) + (AU*498);
+			var TNLoad = (AS*11) + (AU*8.6);
+			var TKNLoad = (AS*6.4) + (AU*5.1);
+			var DPLoad = (AS*0.61) + (AU*0.48);
+			var TPLoad = (AS*1.4) + (AU*1.1);
+			var CADLoad = (AS*0.0037) + (AU*0.003);
+		}
+		
+		else if (LU=="a6"){
+			var BODLoad = (AS*22) + (AU*11);
+			var CODLoad = (AS*140) + (AU*71);
+			var TSSLoad = (AS*309) + (AU*154);
+			var LeadLoad = (AS*0.234) + (AU*0.117);
+			var CULoad = (AS*0.048) + (AU*0.024);
+			var ZincLoad = (AS*0.9) + (AU*0.45);
+			var TDSLoad = (AS*436) + (AU*218);
+			var TNLoad = (AS*6) + (AU*3.1);
+			var TKNLoad = (AS*3.2) + (AU*1.6);
+			var DPLoad = (AS*0.26) + (AU*0.13);
+			var TPLoad = (AS*0.81) + (AU*0.4);
+			var CADLoad = (AS*0.002) + (AU*0.001);
+		}
+
+		else if (LU=="a7"){
+			var BODLoad = (AS*0) + (AU*3);
+			var CODLoad = (AS*0) + (AU*28);
+			var TSSLoad = (AS*0) + (AU*153);
+			var LeadLoad = (AS*0) + (AU*0.002);
+			var CULoad = (AS*0) + (AU*0.0044);
+			var ZincLoad = (AS*0) + (AU*0.069);
+			var TDSLoad = (AS*0) + (AU*89.2);
+			var TNLoad = (AS*0) + (AU*2.4);
+			var TKNLoad = (AS*0) + (AU*0.91);
+			var DPLoad = (AS*0) + (AU*0.08);
+			var TPLoad = (AS*0) + (AU*0.18);
+			var CADLoad = (AS*0) + (AU*0.0002);
+		}
+		
+		else if (LU=="a8"){
+			var BODLoad = (AS*2) + (AU*0.9);
+			var CODLoad = (AS*64) + (AU*26);
+			var TSSLoad = (AS*100) + (AU*40);
+			var LeadLoad = (AS*0.027) + (AU*0.011);
+			var CULoad = (AS*0.01) + (AU*0.004);
+			var ZincLoad = (AS*0.1) + (AU*0.06);
+			var TDSLoad = (AS*1210) + (AU*483);
+			var TNLoad = (AS*1) + (AU*0.5);
+			var TKNLoad = (AS*2.2) + (AU*0.88);
+			var DPLoad = (AS*0.1) + (AU*0.05);
+			var TPLoad = (AS*0.22) + (AU*0.088);
+			var CADLoad = (AS*0.0003) + (AU*0.0001);
+		}
+
+		else if (LU=="a9"){
+			var BODLoad = (AS*1) + (AU*0.4);
+			var CODLoad = (AS*46) + (AU*15);
+			var TSSLoad = (AS*61) + (AU*20);
+			var LeadLoad = (AS*0.016) + (AU*0.0054);
+			var CULoad = (AS*0.01) + (AU*0.002);
+			var ZincLoad = (AS*0.08) + (AU*0.03);
+			var TDSLoad = (AS*724) + (AU*241);
+			var TNLoad = (AS*1) + (AU*0.2);
+			var TKNLoad = (AS*1.3) + (AU*0.44);
+			var DPLoad = (AS*0.08) + (AU*0.03);
+			var TPLoad = (AS*0.39) + (AU*0.13);
+			var CADLoad = (AS*0.0002) + (AU*0.0001);
+		}
+	
+		var BODRedAg = BODLoad - (AS*0 + AU*3);
+		var BODRedOS = BODLoad - (AS*1 + AU*0.4);
+
+		var CODRedAg = CODLoad - (AS*0 + AU*28);
+		var CODRedOS = CODLoad - (AS*46 + AU*15);
+
+		var TSSRedAg = TSSLoad - (AS*0 + AU*153);
+		var TSSRedOS = TSSLoad - (AS*61 + AU*20);
+
+		var LeadRedAg = LeadLoad - (AS*0 + AU*0.002);
+		var LeadRedOS = LeadLoad - (AS*0.016 + AU*0.0054);
+
+		var CURedAg = CULoad - (AS*0 + AU*0.0044);
+		var CURedOS = CULoad - (AS*0.01 + AU*0.002);
+
+		var ZincRedAg = ZincLoad - (AS*0 + AU*0.069);
+		var ZincRedOS = ZincLoad - (AS*0.08 + AU*0.03);
+
+		var TDSRedAg = TDSLoad - (AS*0 + AU*89.2);
+		var TDSRedOS = TDSLoad - (AS*724 + AU*241);
+
+		var TNRedAg = TNLoad - (AS*0 + AU*2.4);
+		var TNRedOS = TNLoad - (AS*1 + AU*0.2);
+
+		var TKNRedAg = TKNLoad - (AS*0 + AU*0.91);
+		var TKNRedOS = TKNLoad - (AS*1.3 + AU*0.44);
+
+		var DPRedAg = DPLoad - (AS*0 + AU*0.08);
+		var DPRedOS = DPLoad - (AS*0.08 + AU*0.03);
+
+		var TPRedAg = TPLoad - (AS*0 + AU*0.18);
+		var TPRedOS = TPLoad - (AS*0.39 + AU*0.13);
+
+		var CADRedAg = CADLoad - (AS*0 + AU*0.0002);
+		var CADRedOS = CADLoad - (AS*0.0002 + AU*0.0001);
+
+		console.log(CULoad, CURedAg, CURedOS);
+		console.log("Function 'run' finished.");
+
+		document.getElementById("BODLoad").innerHTML = Math.round((BODLoad + Number.EPSILON)*100)/100;
+		document.getElementById("BODLoad1").innerHTML = Math.round((BODRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("BODLoad2").innerHTML = Math.round((BODRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("CODLoad").innerHTML = Math.round((CODLoad + Number.EPSILON)*100)/100;
+		document.getElementById("CODLoad1").innerHTML = Math.round((CODRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("CODLoad2").innerHTML = Math.round((CODRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("TSSLoad").innerHTML = Math.round((TSSLoad + Number.EPSILON)*100)/100;
+		document.getElementById("TSSLoad1").innerHTML = Math.round((TSSRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("TSSLoad2").innerHTML = Math.round((TSSRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("LeadLoad").innerHTML = Math.round((LeadLoad + Number.EPSILON)*100)/100;
+		document.getElementById("LeadLoad1").innerHTML = Math.round((LeadRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("LeadLoad2").innerHTML = Math.round((LeadRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("CULoad").innerHTML = Math.round((CULoad + Number.EPSILON)*100)/100;
+		document.getElementById("CULoad1").innerHTML = Math.round((CURedAg + Number.EPSILON)*100)/100;
+		document.getElementById("CULoad2").innerHTML = Math.round((CURedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("ZincLoad").innerHTML = Math.round((ZincLoad + Number.EPSILON)*100)/100;
+		document.getElementById("ZincLoad1").innerHTML = Math.round((ZincRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("ZincLoad2").innerHTML = Math.round((ZincRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("TDSLoad").innerHTML = Math.round((TDSLoad + Number.EPSILON)*100)/100;
+		document.getElementById("TDSLoad1").innerHTML = Math.round((TDSRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("TDSLoad2").innerHTML = Math.round((TDSRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("TNLoad").innerHTML = Math.round((TNLoad + Number.EPSILON)*100)/100;
+		document.getElementById("TNLoad1").innerHTML = Math.round((TNRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("TNLoad2").innerHTML = Math.round((TNRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("TKNLoad").innerHTML = Math.round(((TKNLoad + Number.EPSILON)*100)/100);
+		document.getElementById("TKNLoad1").innerHTML = Math.round((TKNRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("TKNLoad2").innerHTML = Math.round((TKNRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("DPLoad").innerHTML = Math.round((DPLoad + Number.EPSILON)*100)/100;
+		document.getElementById("DPLoad1").innerHTML = Math.round((DPRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("DPLoad2").innerHTML = Math.round((DPRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("TPLoad").innerHTML = Math.round((TPLoad + Number.EPSILON)*100)/100;
+		document.getElementById("TPLoad1").innerHTML = Math.round((TPRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("TPLoad2").innerHTML = Math.round((TPRedOS + Number.EPSILON)*100)/100;
+
+		document.getElementById("CADLoad").innerHTML = Math.round((CADLoad + Number.EPSILON)*100)/100;
+		document.getElementById("CADLoad1").innerHTML = Math.round((CADRedAg + Number.EPSILON)*100)/100;
+		document.getElementById("CADLoad2").innerHTML = Math.round((CADRedOS + Number.EPSILON)*100)/100;
+	}
+
+</script>
+
+</html>
