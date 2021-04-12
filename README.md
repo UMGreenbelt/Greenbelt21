@@ -18,3 +18,4 @@ Biomass_Function = A function used to make a canopy height model (CHM) into a bi
 
 SoilModelTutorial = Python script for estimating belowground carbon storage (soil organic carbon) for existing Greenbelt properties.
 
+EPA_R5_Load_Reduction_Calculator = Text file and html file containing script for custom EPA Region 5 Load Reduction Calculator website. 
