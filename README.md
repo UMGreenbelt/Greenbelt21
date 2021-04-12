@@ -3,7 +3,7 @@ This repository is the home of the code we used for our SEAS Master of Science a
 
 ### Soil Carbon Estimation by Jackie Edinger
 
-### EGAL Water Ecosytem Services Website by Sebastian Kasparian
+### EPA Region 5 Load Reduction Calculator Website by Sebastian Kasparian
 
 ### Lidar Biomass Estimation Modeling by Lavran Pagano
 Scripts:
