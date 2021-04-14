@@ -1,9 +1,15 @@
 ## Greenbelt21
 This repository is the home of the code we used for our SEAS Master of Science at the Univistsity of Michigan
+Documents:
+Lidar_Training_Data.csv = Training data for aboveground biomass estimaton models.
 
 ### Soil Carbon Estimation by Jackie Edinger
+Scripts:
+SoilModelTutorial = Python script for estimating belowground carbon storage (soil organic carbon) for existing Greenbelt properties.
 
 ### EPA Region 5 Load Reduction Calculator Website by Sebastian Kasparian
+Scripts:
+EPA_R5_Load_Reduction_Calculator = Text file and html file containing script for custom EPA Region 5 Load Reduction Calculator website. 
 
 ### Lidar Biomass Estimation Modeling by Lavran Pagano
 Scripts:
@@ -16,6 +22,3 @@ Model_Comparison_Final = Using the created training data from Extracting_Lidar_P
 
 Biomass_Function = A function used to make a canopy height model (CHM) into a biomass estimation raster with 10 meter by X 10 meter cell size using a log-linear model.
 
-SoilModelTutorial = Python script for estimating belowground carbon storage (soil organic carbon) for existing Greenbelt properties.
-
-EPA_R5_Load_Reduction_Calculator = Text file and html file containing script for custom EPA Region 5 Load Reduction Calculator website. 
